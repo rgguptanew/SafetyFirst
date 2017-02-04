@@ -35,6 +35,12 @@
             android:textIsSelectable="true"
             tools:text="This is the comment text.."/>
 
+        <ImageView
+            android:id="@+id/comment_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/star_layout"

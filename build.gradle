@@ -19,6 +19,9 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url "https://s3.amazonaws.com/repo.commonsware.com"  // For RichEditText
+        }
         jcenter()
 
         mavenCentral()

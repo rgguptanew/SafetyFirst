@@ -101,15 +101,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <EditText
-            android:id="@+id/field_comment_text"
-            android:layout_width="match_parent"
-            android:layout_weight="0.8"
-            android:layout_height="wrap_content"
-
-            android:singleLine="false"
-            android:hint="Write an Answer..."/>
-
         <Button
             android:id="@+id/button_post_comment"
             style="@style/Base.Widget.AppCompat.Button.Borderless"

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.vikas.dtu.safetyfirst2.mDiscussion.NewCommentActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/content_new_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/md_keylines"
+            android:text="UPLOAD"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/image_upload_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/md_keylines"
+                android:background="@drawable/round_red_dark"
+                android:onClick="uploadImage"
+                android:padding="@dimen/md_keylines"
+                android:src="@drawable/ic_photo_camera_white_24dp" />
+
+            <ImageButton
+                android:id="@+id/link_attach_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/md_keylines"
+                android:layout_marginRight="@dimen/md_keylines"
+                android:background="@drawable/round_red_dark"
+                android:onClick="attachLink"
+                android:padding="@dimen/md_keylines"
+                android:src="@drawable/ic_link_white_24dp"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/file_upload_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/md_keylines"
+                android:layout_marginRight="@dimen/md_keylines"
+                android:background="@drawable/round_red_dark"
+                android:onClick="uploadFile"
+                android:padding="@dimen/md_keylines"
+                android:src="@drawable/ic_attach_file_white_24dp" />
+
+            <Button
+                android:id="@+id/bold_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/md_keylines"
+                android:background="@color/blue_grey_700"
+                android:text="B"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/italic_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/md_keylines"
+                android:background="@color/blue_grey_700"
+                android:text="I"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/underline_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/md_keylines"
+                android:background="@color/blue_grey_700"
+                android:text="U"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <com.commonsware.cwac.richedit.RichEditText
+            android:id="@+id/editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/md_keylines"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="@dimen/md_keylines"
+            android:background="@drawable/edit_text_style"
+            android:elevation="@dimen/md_keylines"
+            android:gravity="center"
+            android:hint="@string/write_your_post"
+            android:inputType="textMultiLine"
+            android:lines="10"
+            android:maxLines="10"
+            android:padding="@dimen/md_keylines"
+            android:scrollHorizontally="false">
+
+            <requestFocus/>
+
+        </com.commonsware.cwac.richedit.RichEditText>
+
+        <Button
+            android:id="@+id/button_post_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/round_red_dark"
+            android:text="POST"
+            android:textColor="@color/white"
+            tools:ignore="RtlHardcoded" />
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
