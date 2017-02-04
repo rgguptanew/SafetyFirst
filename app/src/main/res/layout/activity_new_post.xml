@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
-        <ImageButton
+        <ImageButton  android:id="@+id/upload_image"
             android:padding="@dimen/md_keylines"
             android:background="@drawable/round_red_dark"
             android:layout_marginRight="@dimen/md_keylines"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:onClick="uploadImage"
             android:src="@drawable/ic_photo_camera_white_24dp"/>
-        <ImageButton
+        <ImageButton android:id="@+id/attach_link"
             android:visibility="gone"
             android:layout_marginLeft="@dimen/md_keylines"
             android:layout_marginRight="@dimen/md_keylines"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:onClick="attachLink"
             android:src="@drawable/ic_link_white_24dp"/>
-        <ImageButton
+        <ImageButton  android:id="@+id/upload_file"
             android:padding="@dimen/md_keylines"
             android:background="@drawable/round_red_dark"
             android:layout_width="wrap_content"
