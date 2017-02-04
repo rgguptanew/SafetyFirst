@@ -96,7 +96,9 @@
         android:textColor="@color/white"
         tools:ignore="RtlHardcoded" />
 
-
-
+    <ListView
+        android:id="@+id/image_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

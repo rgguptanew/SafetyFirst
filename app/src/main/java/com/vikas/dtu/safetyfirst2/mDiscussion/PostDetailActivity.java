@@ -117,6 +117,10 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
     private LinearLayoutManager mManager;
 
+    private LinearLayoutManager mImageManager;
+    private ArrayList<String> imageList;
+    private RecyclerView mImageRecycler;
+
     private Post post;
     //  private int clickcount =0;
 
@@ -160,6 +164,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         mCommentButton = (Button) findViewById(R.id.button_post_comment);
         mCommentsRecycler = (RecyclerView) findViewById(R.id.recycler_comments);
+        mImageRecycler = (RecyclerView) findViewById(R.id.recycler_images);
 
         mCommentButton.setOnClickListener(this);
         mImageButton.setOnClickListener(this);
@@ -173,6 +178,8 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         mManager.setStackFromEnd(true);
         mCommentsRecycler.setLayoutManager(mManager);
 
+        mImageManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mImageRecycler.setLayoutManager(mImageManager);
     }
 
 
@@ -213,6 +220,14 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 postLoaded = true;
                 onCreateOptionsMenu(mMenu);
 
+                if(post.imageList != null && post.imageList.size() > 1) {
+                    //Toast.makeText(PostDetailActivity.this, "Has Image List", Toast.LENGTH_LONG);
+                    imageList = post.imageList;
+                    mImageView.setVisibility(View.GONE);
+                    mImageRecycler.setVisibility(View.VISIBLE);
+                    mImageRecycler.setAdapter(new ImagesAdapter(PostDetailActivity.this, imageList));
+                }
+
 
                 //TODO get attachment urls from post if they exist
                 // [END_EXCLUDE]
@@ -246,7 +261,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         Pattern p = Pattern.compile(URL_REGEX2, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
         String link = "";
-        String[] parts = input.split("\\s+");
+        String[] parts = input.split("\\s");
         preText = "";
         postText = "";
         int flag = 0;
@@ -753,39 +768,39 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 // delete post remotely from [  nodes to remove from   posts, user-posts, post-attachments, post-comments ]
                 final AlertDialog.Builder post_Del_Alert = new AlertDialog.Builder(this);
                 post_Del_Alert.setTitle("Warning").setMessage("Are you sure you want to delete this post?")
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
+                        }
+                    })
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            if (mPostListener != null) {
+                                mPostReference.removeEventListener(mPostListener);
                             }
-                        })
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            mAdapter.cleanupListener();
 
-                                if (mPostListener != null) {
-                                    mPostReference.removeEventListener(mPostListener);
-                                }
-                                mAdapter.cleanupListener();
+                            mPostReference.removeValue();
+                            mCommentsReference.removeValue();
+                            mPostAttachmentsReference.removeValue();
+                            mUserPostReference.removeValue();
+                            mCommentAttachmentsReference.removeValue();
 
-                                mPostReference.removeValue();
-                                mCommentsReference.removeValue();
-                                mPostAttachmentsReference.removeValue();
-                                mUserPostReference.removeValue();
-                                mCommentAttachmentsReference.removeValue();
-
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                if (realm.where(PostNotify.class).equalTo("postKey", mPostKey).findFirst() != null) {
-                                    realm.where(PostNotify.class).equalTo("postKey", mPostKey).findFirst().deleteFromRealm();
-                                }
-                                realm.commitTransaction();
-
-                                FirebaseDatabase.getInstance().getReference().child("post-notify").child(mPostKey).removeValue();
-                                //Todo:  delete stuff from storage too
-                                finish();
+                            Realm realm = Realm.getDefaultInstance();
+                            realm.beginTransaction();
+                            if (realm.where(PostNotify.class).equalTo("postKey", mPostKey).findFirst() != null) {
+                                realm.where(PostNotify.class).equalTo("postKey", mPostKey).findFirst().deleteFromRealm();
                             }
-                        });
+                            realm.commitTransaction();
+
+                            FirebaseDatabase.getInstance().getReference().child("post-notify").child(mPostKey).removeValue();
+                            //Todo:  delete stuff from storage too
+                            finish();
+                        }
+                    });
                 post_Del_Alert.create().show();
 
                 break;
@@ -800,5 +815,43 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
         ActivityCompat.finishAfterTransition(this);
+    }
+
+    private static class ImageViewHolder extends RecyclerView.ViewHolder {
+
+        public ImageView postImage;
+
+        public ImageViewHolder(View itemView) {
+            super(itemView);
+            postImage = (ImageView) itemView.findViewById(R.id.post_image);
+        }
+    }
+
+    private static class ImagesAdapter extends RecyclerView.Adapter<ImageViewHolder> {
+
+        private Context mContext;
+        private ArrayList<String> imageList;
+
+        public ImagesAdapter(final Context context, ArrayList<String> imageList) {
+            mContext = context;
+            this.imageList = imageList;
+        }
+
+        @Override
+        public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            View view = inflater.inflate(R.layout.post_detail_image, parent, false);
+            return new ImageViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ImageViewHolder holder, int position) {
+            Glide.with(mContext).load(imageList.get(position)).into(holder.postImage);
+        }
+
+        @Override
+        public int getItemCount() {
+            return imageList.size();
+        }
     }
 }
