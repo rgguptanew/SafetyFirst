@@ -156,7 +156,10 @@ public class NewPostActivity extends BaseActivity {
                 post_notify_ref.child(key).child("num_of_stars").setValue(0);
 
 
-                if (!images.isEmpty()) uploadAllImages();  // Changed uploadImage() to uploadAllImages()
+                mBodyField.setText(null);
+                mTitleField.setText(null);
+                //if (!images.isEmpty()) uploadAllImages();  // Changed uploadImage() to uploadAllImages()
+                if(!images.isEmpty())   Log.e("Images Array", images.toString());
                 if (pdfPath != null) uploadPDF();
             }
         });

@@ -27,15 +27,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +61,7 @@ import com.vikas.dtu.safetyfirst2.R;
 import com.vikas.dtu.safetyfirst2.mData.Post;
 import com.vikas.dtu.safetyfirst2.mData.User;
 import com.vikas.dtu.safetyfirst2.mDiscussion.DiscussionActivity;
+import com.vikas.dtu.safetyfirst2.mUtils.NestedListView;
 import com.vikas.dtu.safetyfirst2.model.PostNotify;
 
 import java.io.File;
@@ -114,7 +119,7 @@ public class NewPostFragment extends Fragment {
     private EditText mTitleField;
     private EditText mBodyField;
     private String mImageUri;
-    private ListView imageListView;
+    private NestedListView imageListView;
 
     @Nullable
     @Override
@@ -126,7 +131,7 @@ public class NewPostFragment extends Fragment {
 
         mTitleField = (EditText) mainView.findViewById(R.id.field_title);
         mBodyField = (EditText) mainView.findViewById(R.id.field_body);
-        imageListView = (ListView) mainView.findViewById(R.id.image_list);
+        imageListView = (NestedListView) mainView.findViewById(R.id.image_list);
 
 
         mainView.findViewById(R.id.fab_submit_post).setOnClickListener(new View.OnClickListener() {
@@ -219,6 +224,8 @@ public class NewPostFragment extends Fragment {
                             writeNewPost(userId, user.username, title, body, downloadImageURL, user.photoUrl, downloadVideoURL, downloadPdfURL, attachLink, downloadImageList);
                         }
 
+                        mBodyField.setText(null);
+                        mTitleField.setText(null);
                         if(images.isEmpty())
                             finish();
                         // [END_EXCLUDE]
